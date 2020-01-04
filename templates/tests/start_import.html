@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<ul>
+{% for file in files %}
+    <li>{{file}}</li>
+{% empty %}
+    <li> <i>No files found</i></li>
+{% endfor %}
+</ul>
+
+{% if files %}
+    <a class="button is-primary is-rounded">Start Importing</a>
+{% endif %}
+
+
+{% endblock content %}

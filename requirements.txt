@@ -1,2 +1,4 @@
 Django
 docx2python
+django-extensions
+ipython
