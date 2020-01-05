@@ -25,8 +25,8 @@
                     <li><i class="fas fa-check"></i><b>Corrent: </b> {{attempt.correct}}</li>
                     <li><i class="fas fa-times"></i><b>Wrong: </b> {{attempt.wrong}}</li>
                     <li><i class="fas fa-minus"></i><b>Empty: </b> {{attempt.null}}</li>
-                    <li><i class="fas fa-hourglass-start"></i><b>Duration : </b> {{attempt.duration}}</li>
-                    
+                    <li><i class="fas fa-hourglass-start"></i><b>Duration : </b> <time>{{attempt.duration}}</time></li>
+                    <li><button id='onoff' class="button is-danger">Wrong only</button></li>
                 </ul>
             </p>
         </div>
@@ -35,7 +35,7 @@
 <div class="container">
     <div class="columns is-multiline">
         {% for a in attempt.aswer_set.all  %}
-            <div class="column is-half">
+            <div class="column is-half" correct="{{a.choice.correct}}">
                 <h1 class="header">{{a.question.title|striptags}}</h1>
                 <div class="choice">
                     {% if a.choice.correct %}
@@ -57,8 +57,16 @@
             </div>
         {% endfor %}
     </div>
-
 </div>
+
+<script>
+$(document).ready(function(){
+    $("#onoff").click(function(){
+        $('.column.is-half[correct="True"]').toggle()
+        $("#onoff").toggleClass("is-success is-danger")
+    })
+})
+</script>
 {% endblock content %}
 
 

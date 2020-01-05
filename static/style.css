@@ -29,6 +29,6 @@ ul li {
     margin-left: 10px;
 }
 
-ul li:first-child{
+ul li svg:first-child, ul li i:first-child{
     margin-right: 10px;
 }
