@@ -1,11 +1,11 @@
-<nav class="navbar" role="navigation" aria-label="main navigation">
+<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
       <a href="{% url 'tests:home'%} " class="navbar-item">
         Home
       </a>
 
-      <a class="navbar-item">
+      <a href="{% url  'tests:attempts_list' %}" class="navbar-item">
         Results
       </a>
     </div>

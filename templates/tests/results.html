@@ -4,7 +4,7 @@
 <div class="columns is-centered">
     <div class="column is-half">
         <h1 class="title">Test Finished</h1>
-        <div>
+        <div class='score_container'>
             <div class="score">
                 {% if attempt.score > 6 %}
                     <span class="score_number has-text-success">
@@ -26,7 +26,7 @@
                     <li><i class="fas fa-times"></i><b>Wrong: </b> {{attempt.wrong}}</li>
                     <li><i class="fas fa-minus"></i><b>Empty: </b> {{attempt.null}}</li>
                     <li><i class="fas fa-hourglass-start"></i><b>Duration : </b> <time>{{attempt.duration}}</time></li>
-                    <li><button id='onoff' class="button is-danger">Wrong only</button></li>
+                    <li><button id='onoff' class="button is-danger is-small is-rounded">Wrong only</button></li>
                 </ul>
             </p>
         </div>
@@ -43,14 +43,14 @@
                             <i class="fas fa-check"></i>
                             {{a.choice.title|striptags}}
                         </p>
-                    {% elif not a.choice.correct %}
+                    {% elif a.choice is None %}
+                         <p class="has-text-warning has-text-weight-bold">
+                            No Selection
+                        </p>
+                    {% else %}
                         <p class='has-text-danger'>
                             <i class="fas fa-times"></i>
                             {{a.choice.title|striptags}}
-                        </p>
-                    {% else %}
-                        <p class="warning">
-                            Empty
                         </p>
                     {% endif %}
                 </div>

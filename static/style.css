@@ -11,10 +11,13 @@
     border-left: solid  hsl(348, 100%, 61%) 2px;
 }
 
+.score_container{
+    display: flex;
+}
 
 .score {
     padding: 40px;
-    margin: 40px;
+    margin: auto;
     border: solid black 2px;
     border-radius: 10px;
 }
