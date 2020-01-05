@@ -7,8 +7,10 @@ urlpatterns = [
     path('', views.index, name='home'),
     path('import/start', views.start_import, name='start_import'),
     path('import/process', views.import_tests, name='import'),
-    path('test/start', views.start_test, name='start_test'),
-    path('test/submit', views.finish_test, name='submit_test'),
+    path('tests/start', views.start_test, name='start_test'),
+    path('tests/submit', views.finish_test, name='submit_test'),
+    path('tests/<int:id>', views.attempt_detail, name='attempt'),
+    path('tests/', views.attempts_list, name='attempts_list'),
     path('answer/submit', views.submit_answer, name='submit_answer'),
 
 ]

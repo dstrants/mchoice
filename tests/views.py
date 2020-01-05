@@ -46,10 +46,23 @@ def submit_answer(request):
     answer.save()
     return JsonResponse({'status': 'done'})
 
+
 def finish_test(request):
     at_id = request.GET.get('at_id')
     attempt = get_object_or_404(Attempt, id=at_id)
     attempt.finished = True
+    attempt.started_at = str(request.GET.get('start'))
+    attempt.ended_at = str(request.GET.get('end'))
     attempt.save()
     attempt.calculate_correct()
     return render(request, 'tests/results.html', {'attempt': attempt})
+
+
+def attempts_list(request):
+    attempts = request.user.attempt_set.all()
+    return render(request, "tests/attemps.html", {'attempts': attempts})
+
+
+def attempt_detail(request, id):
+    attempt = get_object_or_404(Attempt, id=id)
+    return render(request, "tests/results.html", {'attempt': attempt})

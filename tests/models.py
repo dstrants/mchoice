@@ -56,6 +56,13 @@ class Attempt(models.Model):
     def wrong(self):
         return self.aswer_set.filter(choice__correct=False).count()
 
+    def score(self):
+        return round(self.correct / self.questions.count(), 2) * 10 if self.questions.count() != 0 else 0
+
+    def duration(self):
+        import arrow
+        return arrow.get(self.ended_at) - arrow.get(self.started_at)
+
 
 class Aswer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True,

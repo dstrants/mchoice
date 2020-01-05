@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="title">Your Past Results</h1>
+    <table class="table is-fullwidth is-hoverable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Score</th>
+                <th>Corrects</th>
+                <th>Blanks</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for at in attempts %}
+                <tr>
+                    <td>
+                        <a href="{% url 'tests:attempt' at.id %}">#{{at.id}}</a>
+                    </td>
+                    <td>{{at.started_at}}</td>
+                    <td>{{at.score}}</td>
+                    <td>{{at.correct}}</td>
+                    <td>{{at.null}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock content %}

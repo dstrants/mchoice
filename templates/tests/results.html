@@ -1,11 +1,64 @@
 {% extends 'base.html' %}
-
+{% load humanize %}
 {% block content %}
+<div class="columns is-centered">
+    <div class="column is-half">
+        <h1 class="title">Test Finished</h1>
+        <div>
+            <div class="score">
+                {% if attempt.score > 6 %}
+                    <span class="score_number has-text-success">
+                        {{attempt.score}}
+                        <i class="fas fa-glass-cheers"></i>
+                    </span>
+                {% else %}
+                    <span class="score_number has-text-danger">
+                        {{attempt.score}}
+                        <i class="fas fa-meh-rolling-eyes"></i>
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+        <div>
+            <p class="content">
+                <ul>
+                    <li><i class="fas fa-check"></i><b>Corrent: </b> {{attempt.correct}}</li>
+                    <li><i class="fas fa-times"></i><b>Wrong: </b> {{attempt.wrong}}</li>
+                    <li><i class="fas fa-minus"></i><b>Empty: </b> {{attempt.null}}</li>
+                    <li><i class="fas fa-hourglass-start"></i><b>Duration : </b> {{attempt.duration}}</li>
+                    
+                </ul>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="columns is-multiline">
+        {% for a in attempt.aswer_set.all  %}
+            <div class="column is-half">
+                <h1 class="header">{{a.question.title|striptags}}</h1>
+                <div class="choice">
+                    {% if a.choice.correct %}
+                        <p class='has-text-success'>
+                            <i class="fas fa-check"></i>
+                            {{a.choice.title|striptags}}
+                        </p>
+                    {% elif not a.choice.correct %}
+                        <p class='has-text-danger'>
+                            <i class="fas fa-times"></i>
+                            {{a.choice.title|striptags}}
+                        </p>
+                    {% else %}
+                        <p class="warning">
+                            Empty
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 
-Correct: {{attempt.correct}}
-Null: {{attempt.null}}
-Wrong: {{attempt.wrong}}
-
+</div>
 {% endblock content %}
 
 

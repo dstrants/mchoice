@@ -1,20 +1,42 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% for a in aswers %}
-    <h1 class="header">{{a.question.title|striptags}}</h1>
-    {% for choice in a.question.choice_set.all %}
-        <input class='radio' data-answer={{a.id}} type="radio" name="aswer-{{a.id}}" id="choice-{{choice.id}}" value={{choice.id}}>
-        <label for="choice-{{choice.id}}">{{choice.title|striptags}}</label>
-        <br>
-    {% endfor %}
+<section class="hero is-medium is-primary is-bold">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Good Luck with your test {{user.username}}
+      </h1>
+      <h2 class="subtitle">
+        Just hit finish when you are ready
+      </h2>
+    </div>
+  </div>
+</section>
+<div class="columns is-centered">
+    <div class="column is-6">
+        {% for a in aswers %}
+            <h1 class="header">{{a.question.title|striptags}}</h1>
+                <div class="choices">
+                    {% for choice in a.question.choice_set.all %}
+                        <input class='radio' data-answer={{a.id}} type="radio" name="aswer-{{a.id}}" id="choice-{{choice.id}}" value={{choice.id}}>
+                        <label for="choice-{{choice.id}}" answer="aswer-{{a.id}}">{{choice.title|striptags}}</label>
+                        <br>
+                    {% endfor %}
+                </div>
+        {% endfor %}
+<a id="finish" class="button is-success">Submit</a>
+    </div>
+</div>
 
-{% endfor %}
-<a href="{% url 'tests:submit_test' %}?at_id={{attempt.id}}" class="button is-success">Submit</a>
 <script>
 $(document).ready(function(){
+    moment.defaultFormat = "YYYY-MM-DD HH:mm:ssZ"
+    start = moment().format()
     $(".radio").click(function(){
-        console.log($(this).val())
+        $(`label[answer="${$(this).attr("name")}"]`).removeClass('has-text-weight-bold');
+        $("label[for='" + $(this).attr('id') + "']").addClass('has-text-weight-bold');
+        $(this).parent('.choices').css('border-color', 'hsl(217, 71%, 53%)')
         axios.get(`{% url 'tests:submit_answer' %}?ch_id=${$(this).val()}&an_id=${$(this)[0].dataset.answer}`)
         .then(function (response) {
             console.log(response);
@@ -23,6 +45,11 @@ $(document).ready(function(){
             // handle error
             console.log(error);
         })
+    })
+    $("#finish").click(function(){
+        end = moment().format();
+        link = "start="+encodeURIComponent(start) + "&end=" + encodeURIComponent(end)
+        window.location.href = "{% url 'tests:submit_test' %}?at_id={{attempt.id}}&"+link
     })
 });
    
