@@ -76,7 +76,8 @@ class Attempt(models.Model):
         return self.aswer_set.filter(choice__correct=False).count()
 
     def score(self):
-        return round(self.correct / self.questions.count() * 10, 2) if self.questions.count() != 0 else 0
+        score = self.correct / self.questions.count() * 10 if self.questions.count() != 0 else 0
+        return round(score, 2)
 
     def duration(self):
         import arrow

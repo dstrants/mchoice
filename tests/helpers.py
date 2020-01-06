@@ -4,7 +4,6 @@ from docx2python.iterators import enum_cells, enum_at_depth
 from .models import Test, Question, Choice
 
 
-
 def locate_docxs():
     files = []
     for file in os.listdir('media/sources'):

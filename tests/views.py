@@ -3,10 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, DetailView
 from django.http import JsonResponse
-from django.shortcuts import reverse
 from .helpers import locate_docxs, import_docxs
 from .models import Attempt, Question, Aswer, Choice, Test
-import os
 
 
 def index(request):
@@ -42,7 +40,8 @@ def start_test(request):
     attempt.questions.set(qset)
     for q in attempt.questions.all():
         Aswer.objects.create(question=q, attempt=attempt)
-    return render(request, "tests/test.html", {'aswers': attempt.aswer_set.all(), 'attempt': attempt})
+    return render(request, "tests/test.html", {'aswers': attempt.aswer_set.all(),
+                                               'attempt': attempt})
 
 
 @login_required

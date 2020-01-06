@@ -14,5 +14,4 @@ urlpatterns = [
     path('tests/<int:id>', views.attempt_detail, name='attempt'),
     path('tests/', views.attempts_list, name='attempts_list'),
     path('answer/submit', views.submit_answer, name='submit_answer'),
-
 ]
