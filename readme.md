@@ -12,4 +12,5 @@ Mchoice is a very simple web app built using Django v3. It parses word documents
 * Run tests as they are uploaded
 * Ability to parse various types of `.docx` structures and maybe add more file types
 * Improve the UI to offer a more pleasant experience.
+* Handling images and tables inside questions text
 * More to be added

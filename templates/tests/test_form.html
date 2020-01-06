@@ -14,8 +14,13 @@
 </div>
 
 <script>
-$('input').addClass('input')
+$('#id_title').hide()
 $('label').addClass('label')
+$('#id_file').change(function(){
+    name = $("#id_file").val().split("\\").slice(-1)[0]
+    $("#id_title").val(name)
+    $('label[for="id_title"]').text('Title: ' + name)
+})
 </script>
 
 {% endblock content %}

@@ -12,22 +12,6 @@ def index(request):
 
 
 @login_required
-def start_import(request):
-    files = locate_docxs()
-    return render(request, "tests/start_import.html", {'files': files})
-
-
-@login_required
-def import_tests(request):
-    files = locate_docxs()
-    try:
-        import_docxs(files)
-    except Exception as e:
-        print(e)
-    return redirect('tests:home')
-
-
-@login_required
 def start_test(request):
     qset = Question.objects.none()
     questions = Question.objects.all()

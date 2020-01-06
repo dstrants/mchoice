@@ -5,8 +5,6 @@ from . import views
 app_name = 'tests'
 urlpatterns = [
     path('', views.index, name='home'),
-    path('import/start', views.start_import, name='start_import'),
-    path('import/process', views.import_tests, name='import'),
     path('tests/start', views.start_test, name='start_test'),
     path('tests/submit', views.finish_test, name='submit_test'),
     path('tests/new', views.CreateNewSource.as_view(), name='new_test'),

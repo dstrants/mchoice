@@ -12,17 +12,14 @@ def locate_docxs():
     return files
 
 
-def import_docxs(files):
+def import_docxs(file, test):
     cnt = 0
-    if not isinstance(files, list):
-        files = [files]
-    for file in files:
-        try:
-            tables = converter(file, html=True)
-        except Exception as e:
-            print(e)
-        else:
-            cnt += import_questions(tables.body, file)
+    try:
+        tables = converter(file, html=True)
+    except Exception as e:
+        print(e)
+    else:
+        cnt += import_questions(tables.body, file, test)
     print("%s Questions Imported" % cnt)
     return True
 
@@ -33,9 +30,10 @@ def remove_empty_paragraphs(tables):
     return tables
 
 
-def import_questions(tables, file):
+def import_questions(tables, file, test):
     tables = remove_empty_paragraphs(tables)
-    test, created = Test.objects.get_or_create(title=file)
+    if test is None:
+        raise 'File cannot be empty'
     qcount = Question.objects.count()
     for (i, j, k, l), paragraph in enum_at_depth(tables, 4):
         if l % 6 == 0:

@@ -1,16 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.shortcuts import reverse
 
 
 class Test(models.Model):
-    title = models.CharField(max_length=100, unique=True)
+    title = models.CharField(max_length=100, unique=True, null=True)
     file = models.FileField(upload_to='sources/', null=True)
 
     def __str__(self):
-        return self.title
+        return self.title if self.title is not None else "No Title"
 
     def get_absolute_url(self):
         return reverse('tests:test_detail', kwargs={'pk': self.pk})
@@ -22,7 +22,7 @@ def import_questions_set(sender, instance, created, **kwargs):
     if created:
         from .helpers import import_docxs
         try:
-            import_docxs("media/" + instance.file.url)
+            import_docxs("media/" + instance.file.name, instance)
         except Exception as e:
             print(e)
             pass
