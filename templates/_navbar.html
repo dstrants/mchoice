@@ -8,6 +8,11 @@
       <a href="{% url  'tests:attempts_list' %}" class="navbar-item">
         Results
       </a>
+      {% if user.is_superuser %}
+        <a href="{% url  'tests:new_test' %}" class="navbar-item">
+        Upload
+      </a>
+      {% endif %}
     </div>
     <div class="navbar-end">
       <div class="navbar-item">
