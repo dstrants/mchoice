@@ -2,7 +2,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '6hzp2is&ea!*0v+r6r@k6al84u)d6gvyi_qtionb9lxfoz*@-='
 DEBUG = True
-ALLOWED_HOSTS = [".ngrok.io"]
+ALLOWED_HOSTS = ['localhost',".ngrok.io"]
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',

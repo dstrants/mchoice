@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class='title'>List of all available sources</h1>
+    <table class="table is-fullwidth is-hooverable">
+        <thead>
+            <tr>
+                <td>#</td>
+                <td>Name</td>
+                <td>Questions</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in object_list %}
+                <tr>
+                    <td>{{t.id}}</td>
+                    <td>
+                        <a href="{% url 'tests:test_detail' t.id %}">
+                            {{t.title}}
+                        </a>
+                    </td>
+                    <td>{{t.question_set.count}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>#</th>
+                <th>Total Questions available</th>
+                <th id='sum'></th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+
+<script>
+$(document).ready(function(){
+    sum = 0;
+    $("tbody tr td:last-child").each(function() {
+
+        var value = $(this).text();
+        if(!isNaN(value) && value.length != 0) {
+        sum += parseFloat(value);
+        }
+    });
+    $('#sum').text(sum)
+})
+</script>
+{% endblock content %}
