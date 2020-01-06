@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import CreateView, DetailView
 from django.http import JsonResponse
+from django.shortcuts import reverse
 from .helpers import locate_docxs, import_docxs
-from .models import Attempt, Question, Aswer, Choice
+from .models import Attempt, Question, Aswer, Choice, Test
 import os
 
 
@@ -23,7 +26,7 @@ def import_tests(request):
         import_docxs(files)
     except Exception as e:
         print(e)
-    return redirect('test:index')
+    return redirect('tests:home')
 
 
 @login_required
@@ -75,3 +78,12 @@ def attempts_list(request):
 def attempt_detail(request, id):
     attempt = get_object_or_404(Attempt, id=id)
     return render(request, "tests/results.html", {'attempt': attempt})
+
+
+class CreateNewSource(LoginRequiredMixin, CreateView):
+    model = Test
+    fields = ['title', 'file']
+
+
+class DetailSource(LoginRequiredMixin, DetailView):
+    model = Test

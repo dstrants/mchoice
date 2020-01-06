@@ -4,6 +4,7 @@ from docx2python.iterators import enum_cells, enum_at_depth
 from .models import Test, Question, Choice
 
 
+
 def locate_docxs():
     files = []
     for file in os.listdir('media/sources'):
@@ -14,16 +15,15 @@ def locate_docxs():
 
 def import_docxs(files):
     cnt = 0
+    if not isinstance(files, list):
+        files = [files]
     for file in files:
-        if Test.objects.filter(title=file).exists():
-            pass
+        try:
+            tables = converter(file, html=True)
+        except Exception as e:
+            print(e)
         else:
-            try:
-                tables = converter("media/sources/" + file, html=True)
-            except Exception as e:
-                print(e)
-            else:
-                cnt += import_questions(tables.body, file)
+            cnt += import_questions(tables.body, file)
     print("%s Questions Imported" % cnt)
     return True
 
@@ -36,7 +36,7 @@ def remove_empty_paragraphs(tables):
 
 def import_questions(tables, file):
     tables = remove_empty_paragraphs(tables)
-    test = Test.objects.create(title=file)
+    test, created = Test.objects.get_or_create(title=file)
     qcount = Question.objects.count()
     for (i, j, k, l), paragraph in enum_at_depth(tables, 4):
         if l % 6 == 0:

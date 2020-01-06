@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<h1 class='title'>{{object.title}}</h1>
+<div class="container">
+    <div class="columns is-multiline">
+        {% for q in object.question_set.all  %}
+            <div class="column is-half">
+                <h1 class="header">{{q.title|striptags}}</h1>
+                <div class="choices">
+                    {% for c in q.choice_set.all  %}
+                        {% if c.correct %}
+                            <p class='has-text-success'>
+                                {{c.title|striptags}}
+                            </p>
+                        {% else %}
+                            <p class='has-text-info'>
+                                {{c.title|striptags}}
+                            </p>
+                        {% endif %}
+                    
+                    {% endfor %}
+                    
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

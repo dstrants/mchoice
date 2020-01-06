@@ -1,12 +1,31 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.shortcuts import reverse
 
 
 class Test(models.Model):
     title = models.CharField(max_length=100, unique=True)
+    file = models.FileField(upload_to='sources/', null=True)
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('tests:test_detail', kwargs={'pk': self.pk})
+
+
+@receiver(post_save, sender=Test)
+def import_questions_set(sender, instance, created, **kwargs):
+    """Imports all questions from file uploaded"""
+    if created:
+        from .helpers import import_docxs
+        try:
+            import_docxs("media/" + instance.file.url)
+        except Exception as e:
+            print(e)
+            pass
 
 
 class Question(models.Model):
@@ -19,7 +38,7 @@ class Question(models.Model):
 
     def __str__(self):
         return self.title
-    
+
     def correct_choice(self):
         return self.choice_set.filter(correct=True)
 

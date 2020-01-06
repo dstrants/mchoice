@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div style='display: flex'>
+    <div style='margin: 100px auto auto auto' class="form">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input class='button is-success' type="submit" value="Upload">
+        </form>
+
+    </div>
+</div>
+
+<script>
+$('input').addClass('input')
+$('label').addClass('label')
+</script>
+
+{% endblock content %}
